@@ -401,7 +401,7 @@ class BarcodeReader {
         let tracks = mediastream.getTracks();
         
         tracks.forEach(function(track) {
-           mediastream.removeTrack(track);
+           //mediastream.removeTrack(track);
            track.stop();
         });
         this.video.srcObject=null;
