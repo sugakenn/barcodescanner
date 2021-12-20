@@ -1,5 +1,4 @@
-# barcode scanner class
+# barcodescanner class
 
-# Requirement
-quaggajs
+# ブログ記事で紹介しているQuaggaJS(https://serratus.github.io/quaggaJS/)を使ったJavaScript実装のサンプルです。
 
