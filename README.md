@@ -1,6 +1,6 @@
 # barcodescanner class
 
-quaggajs implementation class
+<a href="https://serratus.github.io/quaggaJS/" target="_blank" rel="noopener">quaggajs</a> implementation class for Browser.
 
 ブログ記事で紹介している
 QuaggaJS
