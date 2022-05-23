@@ -1,5 +1,7 @@
 # barcodescanner class
 
+quaggajs implementation class
+
 ブログ記事で紹介している
 QuaggaJS
 https://serratus.github.io/quaggaJS/
