@@ -10,12 +10,12 @@ class BarcodeReader {
     videoSize = {w:640, h:480};
     viewSize = {w:300, h:200};
     targetSize = {w:150, h:80, border: 2};
-    wrapperElement=null;//この領域を表示非表示にする
-    viewElement = null;//表示される画像洋装
+    wrapperElement=null;//この領域を表示・非表示にする
+    viewElement = null;//表示される画像要素
     viewContext = null;//表示される画像要素のコンテキスト
     targetElement = null;//バーコード部の要素
     targetContext=null;//バーコード部のコンテキスト
-    inputElement = null;//結果が戻る要素 value値にせっとする
+    inputElement = null;//結果が戻る要素 value値にセットする
     messageElement=null;//エラー時メッセージがinnerHTMLとしてセットされる
     blnCameraInit = false;//カメラ初期化が正常終了したかどうか
     video = null;
