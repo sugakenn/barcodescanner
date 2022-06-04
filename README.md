@@ -4,11 +4,13 @@
 
 バーコードスキャンライブラリ[QuaggaJS](https://serratus.github.io/quaggaJS/)のブラウザ実装です。
 
-<a href="https://serratus.github.io/quaggaJS/" target="_blank" rel="noopener">quaggajs</a> implementation class for Browser.
+A browser implementation of the barcode scan library [QuaggaJS](https://serratus.github.io/quaggaJS/)
 
 # Require
+[QuaggaJS](https://serratus.github.io/quaggaJS/)
 
 # Optional
+[WebRTC adapter]https://github.com/webrtc/adapter
 
 ブログ記事で紹介しているQuaggaJS
 を使ったJavaScript実装のサンプルです。
