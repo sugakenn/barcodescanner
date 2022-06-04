@@ -10,7 +10,10 @@ A browser implementation of the barcode scan library [QuaggaJS](https://serratus
 [QuaggaJS](https://serratus.github.io/quaggaJS/)
 
 # Optional
-[WebRTC adapter]https://github.com/webrtc/adapter
+[WebRTC adapter](https://github.com/webrtc/adapter)
+
+# Quick Start
+
 
 ブログ記事で紹介しているQuaggaJS
 を使ったJavaScript実装のサンプルです。
