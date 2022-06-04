@@ -1,15 +1,16 @@
 class BarcodeReader {
 
     //競合する場合は修正する
+    //html target
     wrapperId="barcode-wrapper";
     viewId="barcode-view";
     messageId="message";
     inputId="itemcd";
     //----
 
-    videoSize = {w:640, h:480};
-    viewSize = {w:300, h:200};
-    targetSize = {w:150, h:80, border: 2};
+    videoSize = {w:640, h:480};  //hidden 
+    viewSize = {w:300, h:200};   //display size
+    targetSize = {w:150, h:80, border: 2};  //guide size
     wrapperElement=null;//この領域を表示・非表示にする
     viewElement = null;//表示される画像要素
     viewContext = null;//表示される画像要素のコンテキスト
@@ -62,10 +63,11 @@ class BarcodeReader {
     };
 
     // Quagga用のパラメータ
+    // Param for QuaggaJS
     qConfig={
         locate: true,
         decoder: { 
-            readers: ["ean_reader","ean_8_reader"],
+            readers: ["ean_reader","ean_8_reader"], //barcode type 対象のバーコードタイプ
             multiple: false, //同時に複数のバーコードを解析しない
         },
         locator: {
@@ -137,6 +139,7 @@ class BarcodeReader {
                 if (this.validationCnt <= 1) {
                     this.scanEnd();
                     //コードをセット
+                    // barcode set to input element
                     this.inputElement.value=result.codeResult.code;
                 } else {
                     if (this.validationCode==result.codeResult.code) {
@@ -144,6 +147,7 @@ class BarcodeReader {
                         if (this.validationCnt <= this.validatainWkCnt) {
                             this.scanEnd();
                             //コードをセット
+                            // barcode set to input element
                             this.inputElement.value=String(result.codeResult.code);
                         }
                     } else {
@@ -154,7 +158,7 @@ class BarcodeReader {
             });
 
             this.blnCameraInit = true;
-            this.messageElement.innerHTML="スキャンして下さい。再度ボタン押下で中止";
+            this.messageElement.innerHTML="スキャンして下さい。再度ボタン押下で中止"; //PLZ Scan. If Button tap again stop scan. 
         }
         ).catch(
         //エラー時
@@ -162,7 +166,7 @@ class BarcodeReader {
             console.log(err);
             switch(err.message) {
             case "Requested device not found":
-                this.messageElement.innerHTML="カメラ取得に失敗しました";
+                this.messageElement.innerHTML="カメラ取得に失敗しました"; //camera init failed
                 break;
             default:
                 this.messageElement.innerHTML=err.message;
@@ -181,15 +185,19 @@ class BarcodeReader {
         }
 
         //実際取得したサイズは要求したサイズと違う際は上書きされる。
+        //overwrite real video size(It may not be as requested)
         //videoが開始されていないと0になる
+        //If video not start then size is 0 x 0.
         this.videoSize.w=this.video.videoWidth
         this.videoSize.h=this.video.videoHeight;
 
         //canvasは属性値でサイズを指定する必要がある
+        //Canvas size should be set in the attribute.
         this.viewElement.setAttribute("width",this.viewSize.w);
         this.viewElement.setAttribute("height",this.viewSize.h);
 
         //表示領域の計算
+        //calc display aria size
         if (this.videoSize.w <= this.viewSize.w) {
             //元のサイズの方が小さかったらそのまま
             this.viewParam.sx = 0;
@@ -199,14 +207,15 @@ class BarcodeReader {
             this.viewParam.dw = this.videoSize.w;
         } else {
             //中央部を取得
+            //get the center point of X.
             let wk = this.videoSize.w - this.viewSize.w;
             if (wk < 0) {
-                this.messageElement.innerHTML="サイズ設定不備(view-X)";
+                this.messageElement.innerHTML="サイズ設定不備(view-X)"; //size error x
                 console.log("view-x");
                 this.blnCamerainit = false;
                 return;
             }
-            wk = wk /2; //中央寄せするので÷2
+            wk = wk /2; //中央寄せするので÷2 divide by 2 for centering
 
             this.viewParam.sx = wk;
             this.viewParam.sw = this.viewSize.w;
@@ -215,7 +224,7 @@ class BarcodeReader {
             this.viewParam.dw = this.viewSize.w;
         }
         if (this.videoSize.h <= this.viewSize.h) {
-            //元のサイズの方が小さかったらそのまま
+            //元のサイズの方が小さかったらそのまま // If the original size is smaller, leave it as it is
             this.viewParam.sy = 0;
             this.viewParam.sh = this.videoSize.h;
             
@@ -223,14 +232,15 @@ class BarcodeReader {
             this.viewParam.dh = this.videoSize.h;
         } else {
             //中央部を取得
+            //get the center point of Y.
             let wk = this.videoSize.h - this.viewSize.h;
             if (wk < 0) {
-                this.messageElement.innerHTML="サイズ設定不備(view-Y)";
+                this.messageElement.innerHTML="サイズ設定不備(view-Y)";//size error y
                 console.log("view-y");
                 this.blnCameraInit = false;
                 return;
             }
-            wk = wk /2; //中央寄せするので÷2
+            wk = wk /2; //中央寄せするので÷2 //divide by 2 for centering
 
             this.viewParam.sy = wk;
             this.viewParam.sh = this.viewSize.h;
@@ -240,18 +250,19 @@ class BarcodeReader {
         }
 
         //バーコードスキャン部分の計算
+        //calc scan area size.
         if (this.videoSize.w <= this.targetSize.w) {
-            //元のサイズの方が小さかったらそのまま
+            //元のサイズの方が小さかったらそのまま// If the original size is smaller, leave it as it is
             this.targetParam.sx = 0;
             this.targetParam.sw = this.videoSize.w;
             
             this.targetParam.dx = 0;
             this.targetParam.dw = this.videoSize.w;
         } else {
-            //中央部を取得
+            //中央部を取得 //get the center point of x
             let wk = this.videoSize.w - this.targetSize.w;
             if (wk < 0) {
-                this.messageElement.innerHTML="サイズ設定不備(target-X)";
+                this.messageElement.innerHTML="サイズ設定不備(target-X)";//Size error x
                 console.log("target-x");
                 this.blnCamerainit = false;
                 return;
@@ -280,7 +291,7 @@ class BarcodeReader {
                 console.log("target-y");
                 return;
             }
-            wk = wk /2; //中央寄せするので÷2
+            wk = wk /2; //中央寄せするので÷2//divide by 2 for centering
 
             this.targetParam.sy = wk;
             this.targetParam.sh = this.targetSize.h;
@@ -290,6 +301,7 @@ class BarcodeReader {
         }
 
         //バーコードガイドの設定
+        //barcode guide setting
         this.sqParam.valid = true;
         this.sqParam.w = this.targetSize.w;
         this.sqParam.h = this.targetSize.h;
@@ -325,6 +337,7 @@ class BarcodeReader {
         this.wrapperElement.style.display="block";
         
         //初期化の待ち受け処理
+        //timeout setting
         if (this.blnCameraInit==false) {
             if (intCnt < 5) {
                 this.reserveEnd = setTimeout(this.scanStart.bind(this,intCnt+1),1000);
@@ -346,17 +359,21 @@ class BarcodeReader {
     
     scanning() {
         //スキャン本体
+        //scan(main)
         if (this.blnScaning == false) {
             return;
         }
 
         //パラメータ初期化()
+        //init param
         this.initParam();
 
         //バーコードエリアに線画
+        //From video to canvas for barcode analysis
         this.targetContext.drawImage(this.video,this.targetParam.sx,this.targetParam.sy,this.targetParam.sw,this.targetParam.sh,this.targetParam.dx,this.targetParam.dy,this.targetParam.dw,this.targetParam.dh);
 
         //線画からバーコード解析
+        //canvas to QuaagaJS
         this.targetElement.toBlob((blob)=>{
                 let reader = new FileReader();
                 reader.onload=()=>{
@@ -367,9 +384,11 @@ class BarcodeReader {
         });
         
         //プレビューエリアに線画
+        //From video to canvas for pveview
         this.viewContext.drawImage(this.video,this.viewParam.sx,this.viewParam.sy,this.viewParam.sw,this.viewParam.sh,this.viewParam.dx,this.viewParam.dy,this.viewParam.dw,this.viewParam.dh);
 
         //バーコードガイドの線画
+        //paint square guide
         if(this.sqParam.valid) {
             this.viewContext.beginPath();
             this.viewContext.strokeStyle="rgb(255,0,0)";
@@ -379,6 +398,7 @@ class BarcodeReader {
         }
 
         //再帰
+        //Recursion
         setTimeout(this.scanning.bind(this),this.scanInterval);
     }
     
@@ -393,10 +413,12 @@ class BarcodeReader {
         this.validationCode="";
 
         //コンテキストクリア
+        //context clear
         this.targetContext.clearRect(0,0,this.targetParam.dw,this.targetParam.dh);
         this.viewContext.clearRect(0,0,this.viewParam.dw,this.viewParam.dh);
 
         //カメラ停止
+        //video stop
         let mediastream = this.video.srcObject;
         let tracks = mediastream.getTracks();
         
