@@ -1,10 +1,16 @@
 # barcodescanner class
 
+![image](https://github.com/sugakenn/barcodescanner/blob/main/image.jpg)
+
+バーコードスキャンライブラリ[QuaggaJS](https://serratus.github.io/quaggaJS/)のブラウザ実装です。
+
 <a href="https://serratus.github.io/quaggaJS/" target="_blank" rel="noopener">quaggajs</a> implementation class for Browser.
 
-ブログ記事で紹介している
-QuaggaJS
-https://serratus.github.io/quaggaJS/
+# Require
+
+# Optional
+
+ブログ記事で紹介しているQuaggaJS
 を使ったJavaScript実装のサンプルです。
 
 ブログ記事は
