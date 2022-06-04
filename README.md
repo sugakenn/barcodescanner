@@ -12,7 +12,7 @@ A browser implementation of the barcode scan library [QuaggaJS](https://serratus
 # Optional
 [WebRTC adapter](https://github.com/webrtc/adapter)
 
-# Quick Start
+# Usage
 - import QuaagaJS
 - import WebRTC adapter(Optional)
 - import or copy barcodescanner.js
@@ -30,5 +30,19 @@ A browser implementation of the barcode scan library [QuaggaJS](https://serratus
 
 - make instance in script like this
   
+  const barcodescanner = new (
+  videoSizeW, videoSizeH, 
+  viewSizeW, viewSizeH,
+  targetSizeW, targetSizeH,
+  borderLineSize,
+  scanInterval,
+  validationCnt);
   
-
+  - videoSize: Background video size.
+  - viewSize: View in HTML size.
+  - targetSize: Area of sending QuaagaJS
+  - borderLineSize: guide line size
+  - scanInterval: Interval to send to QuaagaJS(milliseconds)
+  - validationCnt: If the same code value is obtained the specified number of times, it is considered successful.
+  
+The html button event calls the method in the barcodescanner.js class b to window.togglescan
